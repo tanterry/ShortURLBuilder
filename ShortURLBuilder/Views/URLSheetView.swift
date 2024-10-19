@@ -9,7 +9,7 @@ import SwiftUI
 import ShortURLBuilderProvider
 
 struct URLSheetView: View {
-    @Environment(\.dismiss) var dismiss
+    @Environment(\.dismiss) private var dismiss
 
     @ObservedObject private var item: ServiceModel
 
@@ -25,7 +25,7 @@ struct URLSheetView: View {
 
     var body: some View {
         NavigationView {
-            VStack {
+            VStack(spacing: 16) {
                 if !generatedLink.isEmpty {
                     generatedLinkView(generatedLink)
                 }
@@ -74,7 +74,7 @@ struct URLSheetView: View {
                 } else {
                     Image(systemName: "doc.on.doc")
                         .renderingMode(.template)
-                        .foregroundStyle(.black)
+                        .foregroundStyle(.foreground)
                 }
             }
             .frame(height: 16)

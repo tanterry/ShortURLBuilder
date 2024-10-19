@@ -19,7 +19,6 @@ class ActionViewController: UIViewController {
             let itemProvider = item.attachments?.first as? NSItemProvider,
             itemProvider.canLoadObject(ofClass: URL.self)
         else {
-            print("Did not receive input")
             close()
             return
         }
@@ -31,7 +30,6 @@ class ActionViewController: UIViewController {
                 close()
                 return
             }
-            print("URL: \(url.absoluteString)")
 
             Task { @MainActor in
                 self.showURLView(url: url)
