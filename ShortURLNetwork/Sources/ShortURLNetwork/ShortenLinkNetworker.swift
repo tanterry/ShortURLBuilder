@@ -54,6 +54,7 @@ public actor ShortenLinkNetworker: ShortenLinkNetworkerProtocol {
     private func buildRequest(from endpoint: any BaseEndpoint) throws -> URLRequest {
         var component = URLComponents(string: endpoint.baseURL)
         component?.path = endpoint.path
+        component?.queryItems = endpoint.query
 
         guard let url = component?.url else {
             throw URLError(.badURL)
