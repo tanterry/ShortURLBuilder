@@ -10,13 +10,15 @@ import ShortURLNetwork
 import ShortURLBuilderProvider
 
 struct ShortURLBuilderActionView: View {
+    struct AlertInfo {
+        let title: String
+        let message: String
+    }
+
     private var providers = Provider.allCases
 
-    @State private var isCopied = false
-    @State private var copiedURLString: String?
-
-    @State private var isErrorPresented = false
-    @State private var errorMessage: String?
+    @State private var isPresentedAlert = false
+    @State private var alertInfo: AlertInfo?
 
     private let url: URL
     private let close: () -> Void
@@ -39,17 +41,10 @@ struct ShortURLBuilderActionView: View {
                     }
                 }
             }
-            .alert(isPresented: $isCopied) {
+            .alert(isPresented: $isPresentedAlert) {
                 Alert(
-                    title: Text("URL is generated & copied!"),
-                    message: Text(copiedURLString ?? ""),
-                    dismissButton: .cancel(Text("Done"))
-                )
-            }
-            .alert(isPresented: $isErrorPresented) {
-                Alert(
-                    title: Text("Something went wrong"),
-                    message: Text(errorMessage ?? ""),
+                    title: Text(alertInfo?.title ?? ""),
+                    message: Text(alertInfo?.message ?? ""),
                     dismissButton: .cancel(Text("Done"))
                 )
             }
@@ -70,12 +65,12 @@ struct ShortURLBuilderActionView: View {
                 let generatedLink = try await viewModel.shorten(url: url.absoluteString)
                 UIPasteboard.general.string = generatedLink
 
-                copiedURLString = generatedLink
-                isCopied = true
+                alertInfo = AlertInfo(title: "URL is generated & copied!", message: generatedLink)
             } catch {
-                isErrorPresented = true
-                errorMessage = error.localizedDescription
+                alertInfo = AlertInfo(title: "Something went wrong", message: error.localizedDescription)
             }
+
+            isPresentedAlert = true
         }
     }
 }
