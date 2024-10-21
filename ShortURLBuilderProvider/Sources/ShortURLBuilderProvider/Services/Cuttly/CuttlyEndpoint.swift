@@ -11,9 +11,9 @@ import ShortURLNetwork
 enum CuttlyEndpoint: BaseEndpoint {
     case short(String, alias: String?)
 
-    var baseURL: String { "https://cutt.ly/api/api.php" }
+    var baseURL: String { "https://cutt.ly" }
 
-    var path: String { "" }
+    var path: String { "/api/api.php" }
 
     var method: HTTPMethod { .get }
 
