@@ -87,6 +87,7 @@ struct URLSheetView: View {
             .focused($textfieldFocused)
             .keyboardType(.URL)
             .textFieldStyle(.roundedBorder)
+            .textInputAutocapitalization(.never)
     }
 
     private var generateButton: some View {
