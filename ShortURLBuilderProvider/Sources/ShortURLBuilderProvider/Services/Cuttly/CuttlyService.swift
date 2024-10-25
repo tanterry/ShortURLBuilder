@@ -16,15 +16,12 @@ public final class CuttlyService: NSObject, ShortenLinkService {
     override public init() {}
 
     public func shorten(url: String) async throws -> String {
-        let name = String((0 ..< 7)
-            .compactMap { _ in "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".randomElement() })
-
         let response = try await networker.requestDecodable(
             CuttlyResponse.self,
-            endpoint: CuttlyEndpoint.short(url, alias: name),
+            endpoint: CuttlyEndpoint.short(url, alias: nil),
             decoder: JSONDecoder()
         )
 
-        return response.url
+        return response.url.shortLink
     }
 }

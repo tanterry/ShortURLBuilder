@@ -8,5 +8,8 @@
 import Foundation
 
 struct CuttlyResponse: Codable {
-    let url: String
+    struct Response: Codable {
+        let shortLink: String
+    }
+    let url: Response
 }
