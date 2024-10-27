@@ -30,6 +30,4 @@ playground.xcworkspace
 # .swiftpm
 
 .build/
-
-# Configuration
-ShortURLBuilderProvider/Sources/ShortURLBuilderProvider/Config.swift
+.DS_Store

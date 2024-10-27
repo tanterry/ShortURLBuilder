@@ -2,12 +2,9 @@
 This app shortens long URLs using multiple providers.
 
 # Configuration
-Create a `Config.swift` file under `ShortURLBuilderProvider/Sources/ShortURLBuilderProvider` to define the required token/API key.
+Use `KeyChain` to store the API keys for the URL shortening services.
+You can see the "key" icon in the top right corner of the app. Click on it to add your API keys.
 
-```swift
-enum Config {
-    static let bitlyToken = "YOUR_TOKEN"
-
-    static let cuttlyApiKey = "YOUR_API_KEY"
-}
-```
+At the moment, the app supports the following services:
+  - Bitly
+  - Cuttly
