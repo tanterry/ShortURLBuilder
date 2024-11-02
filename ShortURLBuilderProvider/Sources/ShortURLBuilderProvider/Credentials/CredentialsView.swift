@@ -3,10 +3,9 @@ import SwiftUI
 public struct CredentialsView: View {
     @Environment(\.dismiss) private var dismiss
     @EnvironmentObject private var credentialsManager: CredentialsManager
-    @State private var bitlyToken: String = ""
-    @State private var cuttlyKey: String = ""
-    @State private var hasBitlyToken = false
-    @State private var hasCuttlyKey = false
+    @State private var bitlyToken = ""
+    @State private var cuttlyKey = ""
+    @State private var isModified = false
 
     private let placeholderDots = "••••••••••"
 
@@ -19,20 +18,20 @@ public struct CredentialsView: View {
                     CredentialField(
                         type: .bitlyToken,
                         placeholder: placeholderDots,
-                        value: $bitlyToken,
-                        hasKey: $hasBitlyToken
-                    ) { type in
-                        credentialsManager.delete(type: type)
+                        value: $bitlyToken
+                    )
+                    .onChange(of: bitlyToken) {
+                        isModified = true
                     }
                 }
                 Section("Cuttly") {
                     CredentialField(
                         type: .cuttlyApiKey,
                         placeholder: placeholderDots,
-                        value: $cuttlyKey,
-                        hasKey: $hasCuttlyKey
-                    ) { type in
-                        credentialsManager.delete(type: type)
+                        value: $cuttlyKey
+                    )
+                    .onChange(of: cuttlyKey) {
+                        isModified = true
                     }
                 }
             }
@@ -47,27 +46,33 @@ public struct CredentialsView: View {
                 ToolbarItem(placement: .confirmationAction) {
                     Button("Save") {
                         saveCredentials()
+                        dismiss()
                     }
-                    .disabled(bitlyToken.isEmpty && cuttlyKey.isEmpty)
+                    .disabled(!isModified)
                 }
             }
         }
         .onAppear {
-            hasBitlyToken = !credentialsManager.retrieve(for: .bitlyToken).isEmpty
-            hasCuttlyKey = !credentialsManager.retrieve(for: .cuttlyApiKey).isEmpty
+            loadCredentials()
         }
     }
 
+    private func loadCredentials() {
+        bitlyToken = credentialsManager.retrieve(for: .bitlyToken)
+        cuttlyKey = credentialsManager.retrieve(for: .cuttlyApiKey)
+    }
+
     private func saveCredentials() {
-        if !bitlyToken.isEmpty {
+        if bitlyToken.isEmpty {
+            credentialsManager.delete(type: .bitlyToken)
+        } else {
             credentialsManager.save(bitlyToken, for: .bitlyToken)
-            hasBitlyToken = true
         }
-        if !cuttlyKey.isEmpty {
+        if cuttlyKey.isEmpty {
+            credentialsManager.delete(type: .cuttlyApiKey)
+        } else {
             credentialsManager.save(cuttlyKey, for: .cuttlyApiKey)
-            hasCuttlyKey = true
         }
-        dismiss()
     }
 }
 
@@ -77,12 +82,21 @@ extension CredentialsView {
         let placeholder: String
 
         @Binding var value: String
-        @Binding var hasKey: Bool
+        @State var isRemovable: Bool
 
-        var delete: (CredentialType) -> Void
+        init(
+            type: CredentialType,
+            placeholder: String,
+            value: Binding<String>
+        ) {
+            self.type = type
+            self.placeholder = placeholder
+            _value = value
+            isRemovable = !value.wrappedValue.isEmpty
+        }
 
         var body: some View {
-            if hasKey {
+            if isRemovable {
                 Text(placeholder)
                 deleteButton
             } else {
@@ -92,9 +106,8 @@ extension CredentialsView {
 
         private var deleteButton: some View {
             Button(role: .destructive) {
-                hasKey = false
                 value = ""
-                delete(type)
+                isRemovable = false
             } label: {
                 Text("Delete \(type.displayName)")
             }
