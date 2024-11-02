@@ -5,68 +5,37 @@ public struct CredentialsView: View {
     @EnvironmentObject private var credentialsManager: CredentialsManager
     @State private var bitlyToken: String = ""
     @State private var cuttlyKey: String = ""
-    @State private var isEditingBitly = false
-    @State private var isEditingCuttly = false
     @State private var hasBitlyToken = false
     @State private var hasCuttlyKey = false
-    
+
     private let placeholderDots = "••••••••••"
-    
+
     public init() {}
-    
+
     public var body: some View {
         NavigationView {
             List {
                 Section("Bitly") {
-                    ZStack(alignment: .leading) {
-                        if !isEditingBitly && hasBitlyToken {
-                            Text(placeholderDots)
-                        }
-                        SecureField("Enter Bitly Token", text: $bitlyToken)
-                            .opacity(isEditingBitly || !hasBitlyToken ? 1 : 0)
-                            .onTapGesture {
-                                isEditingBitly = true
-                            }
-                    }
-                    
-                    if hasBitlyToken {
-                        Button(role: .destructive) {
-                            credentialsManager.delete(type: .bitlyToken)
-                            bitlyToken = ""
-                            isEditingBitly = false
-                            hasBitlyToken = false
-                        } label: {
-                            Text("Delete Bitly Token")
-                        }
+                    CredentialField(
+                        type: .bitlyToken,
+                        placeholder: placeholderDots,
+                        value: $bitlyToken,
+                        hasKey: $hasBitlyToken
+                    ) { type in
+                        credentialsManager.delete(type: type)
                     }
                 }
-                
                 Section("Cuttly") {
-                    ZStack(alignment: .leading) {
-                        if !isEditingCuttly && hasCuttlyKey {
-                            Text(placeholderDots)
-                        }
-                        SecureField("Enter Cuttly API Key", text: $cuttlyKey)
-                            .opacity(isEditingCuttly || !hasCuttlyKey ? 1 : 0)
-                            .onTapGesture {
-                                isEditingCuttly = true
-                            }
-                    }
-                    
-                    if hasCuttlyKey {
-                        Button(role: .destructive) {
-                            credentialsManager.delete(type: .cuttlyApiKey)
-                            cuttlyKey = ""
-                            isEditingCuttly = false
-                            hasCuttlyKey = false
-                        } label: {
-                            Text("Delete Cuttly API Key")
-                        }
+                    CredentialField(
+                        type: .cuttlyApiKey,
+                        placeholder: placeholderDots,
+                        value: $cuttlyKey,
+                        hasKey: $hasCuttlyKey
+                    ) { type in
+                        credentialsManager.delete(type: type)
                     }
                 }
             }
-            .textInputAutocapitalization(.never)
-            .autocorrectionDisabled()
             .navigationTitle("API Credentials")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
@@ -75,22 +44,20 @@ public struct CredentialsView: View {
                         dismiss()
                     }
                 }
-                
                 ToolbarItem(placement: .confirmationAction) {
                     Button("Save") {
                         saveCredentials()
                     }
+                    .disabled(bitlyToken.isEmpty && cuttlyKey.isEmpty)
                 }
             }
         }
         .onAppear {
-            bitlyToken = credentialsManager.retrieve(for: .bitlyToken)
-            cuttlyKey = credentialsManager.retrieve(for: .cuttlyApiKey)
             hasBitlyToken = !credentialsManager.retrieve(for: .bitlyToken).isEmpty
             hasCuttlyKey = !credentialsManager.retrieve(for: .cuttlyApiKey).isEmpty
         }
     }
-    
+
     private func saveCredentials() {
         if !bitlyToken.isEmpty {
             credentialsManager.save(bitlyToken, for: .bitlyToken)
@@ -101,5 +68,36 @@ public struct CredentialsView: View {
             hasCuttlyKey = true
         }
         dismiss()
+    }
+}
+
+extension CredentialsView {
+    struct CredentialField: View {
+        let type: CredentialType
+        let placeholder: String
+
+        @Binding var value: String
+        @Binding var hasKey: Bool
+
+        var delete: (CredentialType) -> Void
+
+        var body: some View {
+            if hasKey {
+                Text(placeholder)
+                deleteButton
+            } else {
+                SecureField("Enter \(type.displayName)", text: $value)
+            }
+        }
+
+        private var deleteButton: some View {
+            Button(role: .destructive) {
+                hasKey = false
+                value = ""
+                delete(type)
+            } label: {
+                Text("Delete \(type.displayName)")
+            }
+        }
     }
 }
