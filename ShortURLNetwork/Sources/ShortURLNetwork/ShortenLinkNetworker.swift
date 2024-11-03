@@ -17,8 +17,8 @@ public protocol ShortenLinkNetworkerProtocol {
     ) async throws -> T
 }
 
-public extension ShortenLinkNetworkerProtocol {
-    func requestDecodable<T: Decodable>(
+extension ShortenLinkNetworkerProtocol {
+    public func requestDecodable<T: Decodable>(
         _ type: T.Type,
         endpoint: any BaseEndpoint
     ) async throws -> T {
@@ -35,7 +35,7 @@ public actor ShortenLinkNetworker: ShortenLinkNetworkerProtocol {
 
     public func requestData(_ request: URLRequest) async throws -> Data {
         let (data, response) = try await URLSession.shared.data(for: request)
-        guard let httpResponse = response as? HTTPURLResponse, 200 ..< 300 ~= httpResponse.statusCode else {
+        guard let httpResponse = response as? HTTPURLResponse, 200..<300 ~= httpResponse.statusCode else {
             throw URLError(.badServerResponse)
         }
         return data

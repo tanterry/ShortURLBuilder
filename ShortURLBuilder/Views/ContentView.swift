@@ -5,16 +5,17 @@
 //  Created by Ching-Wen Terry TAN on 09/08/2024.
 //
 
-import SwiftUI
-import SwiftData
 import ShortURLBuilderProvider
+import SwiftData
+import SwiftUI
 
 @MainActor
 struct ContentView: View {
     var providers = Provider.allCases
-
+    
     @State var selected: ServiceModel?
-
+    @State private var showingCredentials = false
+    @StateObject private var credentialsManager = CredentialsManager.shared
     var body: some View {
         NavigationView {
             List {
@@ -29,6 +30,15 @@ struct ContentView: View {
                 }
             }
             .navigationTitle("Shorten your link")
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
+                        showingCredentials = true
+                    } label: {
+                        Image(systemName: "key.fill")
+                    }
+                }
+            }
         }
         .sheet(item: $selected) {
             selected = nil
@@ -37,9 +47,9 @@ struct ContentView: View {
                 .presentationDetents([.medium])
                 .interactiveDismissDisabled()
         }
+        .sheet(isPresented: $showingCredentials) {
+            CredentialsView()
+        }
+        .environmentObject(credentialsManager)
     }
-}
-
-#Preview {
-    ContentView()
 }
