@@ -11,11 +11,6 @@
 		90A455192CC3FE1B0088E9B6 /* ShortURLBuilderAction.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 90A4550B2CC3FE1B0088E9B6 /* ShortURLBuilderAction.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		90A4552F2CC407460088E9B6 /* ShortURLBuilderProvider in Frameworks */ = {isa = PBXBuildFile; productRef = 90A4552E2CC407460088E9B6 /* ShortURLBuilderProvider */; };
 		90A455312CC408270088E9B6 /* ShortURLBuilderProvider in Frameworks */ = {isa = PBXBuildFile; productRef = 90A455302CC408270088E9B6 /* ShortURLBuilderProvider */; };
-		90A455402CC411520088E9B6 /* URLSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90A4553F2CC411520088E9B6 /* URLSheetView.swift */; };
-		CDA617C52C668778001885E2 /* ShortenLinkBuilderApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDA617C42C668778001885E2 /* ShortenLinkBuilderApp.swift */; };
-		CDA617C72C668778001885E2 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDA617C62C668778001885E2 /* ContentView.swift */; };
-		CDA617CB2C66877A001885E2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CDA617CA2C66877A001885E2 /* Assets.xcassets */; };
-		CDA617CE2C66877A001885E2 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CDA617CD2C66877A001885E2 /* Preview Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,12 +40,7 @@
 /* Begin PBXFileReference section */
 		90A4550B2CC3FE1B0088E9B6 /* ShortURLBuilderAction.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = ShortURLBuilderAction.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		90A4550C2CC3FE1B0088E9B6 /* UniformTypeIdentifiers.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UniformTypeIdentifiers.framework; path = System/Library/Frameworks/UniformTypeIdentifiers.framework; sourceTree = SDKROOT; };
-		90A4553F2CC411520088E9B6 /* URLSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSheetView.swift; sourceTree = "<group>"; };
 		CDA617C12C668778001885E2 /* ShortURLBuilder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ShortURLBuilder.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		CDA617C42C668778001885E2 /* ShortenLinkBuilderApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortenLinkBuilderApp.swift; sourceTree = "<group>"; };
-		CDA617C62C668778001885E2 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		CDA617CA2C66877A001885E2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		CDA617CD2C66877A001885E2 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -65,6 +55,7 @@
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		90A4550E2CC3FE1B0088E9B6 /* ShortURLBuilderAction */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (90A4551D2CC3FE1B0088E9B6 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = ShortURLBuilderAction; sourceTree = "<group>"; };
+		90CA03E72DFD9D4B00C2397D /* ShortURLBuilder */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = ShortURLBuilder; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,19 +87,10 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		CD26F0462C6FF517007E5588 /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				CDA617C62C668778001885E2 /* ContentView.swift */,
-				90A4553F2CC411520088E9B6 /* URLSheetView.swift */,
-			);
-			path = Views;
-			sourceTree = "<group>";
-		};
 		CDA617B82C668778001885E2 = {
 			isa = PBXGroup;
 			children = (
-				CDA617C32C668778001885E2 /* ShortURLBuilder */,
+				90CA03E72DFD9D4B00C2397D /* ShortURLBuilder */,
 				90A4550E2CC3FE1B0088E9B6 /* ShortURLBuilderAction */,
 				90EBC1552CB2E02D00A2159A /* Frameworks */,
 				CDA617C22C668778001885E2 /* Products */,
@@ -122,25 +104,6 @@
 				90A4550B2CC3FE1B0088E9B6 /* ShortURLBuilderAction.appex */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		CDA617C32C668778001885E2 /* ShortURLBuilder */ = {
-			isa = PBXGroup;
-			children = (
-				CD26F0462C6FF517007E5588 /* Views */,
-				CDA617C42C668778001885E2 /* ShortenLinkBuilderApp.swift */,
-				CDA617CA2C66877A001885E2 /* Assets.xcassets */,
-				CDA617CC2C66877A001885E2 /* Preview Content */,
-			);
-			path = ShortURLBuilder;
-			sourceTree = "<group>";
-		};
-		CDA617CC2C66877A001885E2 /* Preview Content */ = {
-			isa = PBXGroup;
-			children = (
-				CDA617CD2C66877A001885E2 /* Preview Assets.xcassets */,
-			);
-			path = "Preview Content";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -182,6 +145,9 @@
 			);
 			dependencies = (
 				90A455182CC3FE1B0088E9B6 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				90CA03E72DFD9D4B00C2397D /* ShortURLBuilder */,
 			);
 			name = ShortURLBuilder;
 			productName = ShortURLBuilder;
@@ -237,8 +203,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CDA617CE2C66877A001885E2 /* Preview Assets.xcassets in Resources */,
-				CDA617CB2C66877A001885E2 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -256,9 +220,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CDA617C72C668778001885E2 /* ContentView.swift in Sources */,
-				CDA617C52C668778001885E2 /* ShortenLinkBuilderApp.swift in Sources */,
-				90A455402CC411520088E9B6 /* URLSheetView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
