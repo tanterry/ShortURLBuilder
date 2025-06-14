@@ -14,9 +14,9 @@ public enum CredentialType: String, CaseIterable {
     }
 }
 
-@MainActor
-public final class CredentialsManager: ObservableObject {
+public final class CredentialsManager: ObservableObject, Sendable {
     public static let shared = CredentialsManager()
+
     private init() {}
 
     public func save(_ value: String, for type: CredentialType) {

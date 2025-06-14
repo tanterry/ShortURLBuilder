@@ -15,7 +15,8 @@ struct ContentView: View {
     
     @State var selected: ServiceModel?
     @State private var showingCredentials = false
-    @StateObject private var credentialsManager = CredentialsManager.shared
+    private var credentialsManager = CredentialsManager.shared
+
     var body: some View {
         NavigationView {
             List {
