@@ -7,7 +7,7 @@
 
 import Foundation
 
-public protocol ShortenLinkNetworkerProtocol {
+public protocol ShortenLinkNetworkerProtocol: Sendable {
     func requestData(_ request: URLRequest) async throws -> Data
 
     func requestDecodable<T: Decodable>(
@@ -30,7 +30,7 @@ extension ShortenLinkNetworkerProtocol {
     }
 }
 
-public actor ShortenLinkNetworker: ShortenLinkNetworkerProtocol {
+public struct ShortenLinkNetworker: ShortenLinkNetworkerProtocol {
     public init() {}
 
     public func requestData(_ request: URLRequest) async throws -> Data {
