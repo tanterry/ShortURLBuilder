@@ -96,7 +96,7 @@ struct URLSheetView: View {
                 do {
                     generatedLink = try await item.shorten(url: url)
                 } catch {
-                    errorMessage = "URL is invalid."
+                    errorMessage = error.localizedDescription
                 }
             }
         }
