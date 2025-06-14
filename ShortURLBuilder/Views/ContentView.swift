@@ -6,6 +6,7 @@
 //
 
 import ShortURLBuilderProvider
+import CredentialsManager
 import SwiftData
 import SwiftUI
 

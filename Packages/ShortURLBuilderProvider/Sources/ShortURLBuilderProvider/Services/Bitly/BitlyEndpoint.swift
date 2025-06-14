@@ -7,6 +7,7 @@
 
 import Foundation
 import ShortURLNetwork
+import CredentialsManager
 
 enum BitlyEndpoint: BaseEndpoint {
     case shorten(String)

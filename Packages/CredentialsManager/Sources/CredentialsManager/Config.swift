@@ -1,11 +1,11 @@
-enum Config {
-    // static let appGroup = "group.shortUrlDev.app.identifier" 
+public enum Config {
+    // static let appGroup = "group.shortUrlDev.app.identifier"
     
-    static var bitlyToken: String {
+    public static var bitlyToken: String {
         KeychainService.retrieve(forKey: CredentialType.bitlyToken.rawValue) ?? ""
     }
 
-    static var cuttlyApiKey: String {
+    public static var cuttlyApiKey: String {
         KeychainService.retrieve(forKey: CredentialType.cuttlyApiKey.rawValue) ?? ""
     }
 

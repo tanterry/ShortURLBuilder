@@ -7,6 +7,7 @@
 
 import Foundation
 import ShortURLNetwork
+import CredentialsManager
 
 enum CuttlyEndpoint: BaseEndpoint {
     case short(String, alias: String?)
