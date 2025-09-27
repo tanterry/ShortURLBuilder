@@ -23,7 +23,11 @@ struct HomeView: View {
                         onGeneratePressed: generateShortURL
                     )
 
-                    if !hasNoTokens {
+                    if hasNoTokens {
+                        NoTokenView {
+                            print("Should add a token available")
+                        }
+                    } else {
                         ServiceSelectionSection(
                             selectedService: $selectedService,
                             availableServices: availableServices
