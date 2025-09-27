@@ -9,9 +9,9 @@ import SwiftUI
 
 struct HomeView: View {
     @State private var urlText = ""
-    @State private var hasNoTokens = false
     @State private var selectedService = URLService.sampleServices.first
     @State private var availableServices = URLService.sampleServices
+    @State private var showingServicePicker = false
 
     var body: some View {
         NavigationView {
@@ -19,29 +19,37 @@ struct HomeView: View {
                 VStack(spacing: 16) {
                     URLInputSection(
                         urlText: $urlText,
-                        hasNoTokens: $hasNoTokens,
+                        hasNoTokens: selectedService == nil,
                         onGeneratePressed: generateShortURL
                     )
 
-                    if hasNoTokens {
-                        NoTokenView {
-                            print("Should add a token available")
-                        }
-                    } else {
-                        ServiceSelectionSection(
-                            selectedService: $selectedService,
-                            availableServices: availableServices
-                        )
-                    }
+                    ServiceSelectionSection(
+                        selectedService: $selectedService,
+                        showingServicePicker: $showingServicePicker,
+                        availableServices: availableServices
+                    )
 
                     // Toggle for testing
-                    Toggle("No Tokens Available", isOn: $hasNoTokens)
-                        .padding(.horizontal, 24)
+                    Toggle(
+                        "No Tokens Available",
+                        isOn: Binding(get: {
+                            selectedService != nil
+                        }, set: { value in
+                            value ? (selectedService = URLService.sampleServices.first) : (selectedService = nil)
+                        })
+                    )
+                    .padding(.horizontal, 24)
                 }
                 .padding(.horizontal, 16)
             }
             .background(Color(.systemGroupedBackground))
             .navigationTitle("URL Shortener")
+            .sheet(isPresented: $showingServicePicker) {
+                ServicePickerBottomSheet(
+                    selectedService: $selectedService,
+                    availableServices: availableServices
+                )
+            }
         }
     }
 

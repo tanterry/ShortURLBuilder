@@ -9,7 +9,7 @@ import SwiftUI
 
 struct URLInputSection: View {
     @Binding var urlText: String
-    @Binding var hasNoTokens: Bool
+    let hasNoTokens: Bool
 
     var onGeneratePressed: () -> Void
 
@@ -75,7 +75,7 @@ struct URLInputSection: View {
 #Preview {
     URLInputSection(
         urlText: .constant(""),
-        hasNoTokens: .constant(false),
+        hasNoTokens: false,
         onGeneratePressed: { print("Generate pressed") }
     )
 }
