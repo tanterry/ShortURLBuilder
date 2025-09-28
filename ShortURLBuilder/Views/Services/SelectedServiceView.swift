@@ -25,6 +25,7 @@ struct SelectedServiceView: View {
                         Spacer()
                         arrowIcon
                     }
+                    .contentShape(Rectangle())
                 }
                 .padding(16)
                 .background(

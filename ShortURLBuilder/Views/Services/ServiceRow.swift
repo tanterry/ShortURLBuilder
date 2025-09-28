@@ -48,6 +48,7 @@ struct ServiceRow: View {
                 }
             }
             .padding(.vertical, 8)
+            .contentShape(Rectangle())
         }
         .buttonStyle(PlainButtonStyle())
     }

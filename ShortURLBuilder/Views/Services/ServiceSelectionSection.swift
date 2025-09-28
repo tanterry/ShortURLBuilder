@@ -13,8 +13,8 @@ struct ServiceSelectionSection: View {
     let availableServices: [URLService]
 
     var body: some View {
-        if let service = selectedService {
-            SelectedServiceView(service: service) {
+        if let selectedService {
+            SelectedServiceView(service: selectedService) {
                 showingServicePicker = true
             }
         } else {
