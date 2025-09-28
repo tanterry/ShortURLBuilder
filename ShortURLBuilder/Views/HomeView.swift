@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import ShortURLBuilderProvider
 
 struct HomeView: View {
     @State private var urlText = ""
@@ -19,9 +20,12 @@ struct HomeView: View {
                 VStack(spacing: 16) {
                     URLInputSection(
                         urlText: $urlText,
-                        hasNoTokens: selectedService == nil,
-                        onGeneratePressed: generateShortURL
-                    )
+                        hasNoTokens: selectedService == nil
+                    ) {
+                        Task {
+                            await generateShortURL()
+                        }
+                    }
 
                     ServiceSelectionSection(
                         selectedService: $selectedService,
@@ -53,10 +57,27 @@ struct HomeView: View {
         }
     }
 
-    private func generateShortURL() {
+    @MainActor
+    private func generateShortURL() async {
         print("Generating short URL for: \(urlText)")
         if let service = selectedService {
             print("Using service: \(service.name)")
+            do {
+                let shortenService = getShortenService(for: service)
+                let shortenURL = try await shortenService.shorten(url: urlText)
+                print("Successfully generated short URL: \(shortenURL)")
+            } catch {
+                print("Failed to generate short URL: \(error.localizedDescription)")
+            }
+        }
+    }
+
+    private func getShortenService(for selectedService: URLService) -> ShortenLinkService {
+        switch selectedService.id {
+        case .bitly: BitlyService()
+        case .cuttly: CuttlyService()
+        default:
+            fatalError("Unsupported service: \(selectedService.id)")
         }
     }
 }

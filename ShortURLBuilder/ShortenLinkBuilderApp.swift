@@ -13,7 +13,7 @@ import ShortURLBuilderProvider
 struct ShortenLinkBuilderApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            HomeView()
         }
     }
 }

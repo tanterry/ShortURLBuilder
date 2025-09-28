@@ -7,9 +7,10 @@
 
 import Foundation
 import SwiftUI
+import ShortURLBuilderProvider
 
 struct URLService: Identifiable, Hashable {
-    let id: String
+    let id: Provider
     let name: String
     let domain: String
     let color: Color
@@ -18,14 +19,11 @@ struct URLService: Identifiable, Hashable {
 
     static let sampleServices = [
         bitly,
-        URLService(id: "cuttly", name: "Cuttly", domain: "cutt.ly", color: .blue, icon: "C", hasToken: true),
-        URLService(id: "tinyurl", name: "TinyURL", domain: "tinyurl.com", color: .green, icon: "T", hasToken: true),
-        URLService(id: "shortio", name: "Short.io", domain: "short.io", color: .purple, icon: "S", hasToken: true),
-        URLService(id: "rebrandly", name: "Rebrandly", domain: "rebrandly.com", color: .red, icon: "R", hasToken: true)
+        URLService(id: .cuttly, name: "Cuttly", domain: "cutt.ly", color: .blue, icon: "C", hasToken: true)
     ]
 
     static let bitly = URLService(
-        id: "bitly",
+        id: .bitly,
         name: "Bitly",
         domain: "bit.ly",
         color: .orange,

@@ -27,16 +27,7 @@ struct ServiceSelectionSection: View {
 
 #Preview {
     ServiceSelectionSection(
-        selectedService: .constant(
-            URLService(
-                id: "bitly",
-                name: "Bitly",
-                domain: "bit.ly",
-                color: .orange,
-                icon: "B",
-                hasToken: true
-            )
-        ),
+        selectedService: .constant(.bitly),
         showingServicePicker: .constant(false),
         availableServices: URLService.sampleServices
     )
