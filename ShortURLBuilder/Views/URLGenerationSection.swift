@@ -12,7 +12,7 @@ struct URLGenerationSection: View {
     @Binding var shortenURL: String?
 
     var service: URLService?
-    var hasNoTokens: Bool { service == nil }
+    var isServiceAvailable: Bool { service != nil }
 
     var onGeneratePressed: () -> Void
 
@@ -23,7 +23,7 @@ struct URLGenerationSection: View {
 
                 actionButton(
                     text: "Generate Short URL",
-                    disabled: hasNoTokens,
+                    disabled: !isServiceAvailable,
                     action: onGeneratePressed
                 )
             } else {
@@ -48,20 +48,20 @@ struct URLGenerationSection: View {
             HStack {
                 TextField("https://example.com/your-long-url", text: $urlText)
                     .font(.body)
-                    .foregroundColor(hasNoTokens ? .secondary : .primary)
-                    .disabled(hasNoTokens)
+                    .foregroundColor(isServiceAvailable ? .primary : .secondary)
+                    .disabled(!isServiceAvailable)
 
                 Image(systemName: "link")
-                    .foregroundColor(hasNoTokens ? .secondary.opacity(0.5) : .secondary)
+                    .foregroundColor(isServiceAvailable ? .secondary : .secondary.opacity(0.5))
                     .font(.system(size: 20))
             }
             .padding(16)
             .background(
                 RoundedRectangle(cornerRadius: 12)
-                    .fill(hasNoTokens ? Color(.systemGray6) : Color(.systemBackground))
+                    .fill(isServiceAvailable ? Color(.systemBackground) : Color(.systemGray6))
                     .overlay(
                         RoundedRectangle(cornerRadius: 12)
-                            .stroke(hasNoTokens ? Color(.systemGray4) : Color(.systemGray4), lineWidth: 1)
+                            .stroke(isServiceAvailable ? Color(.systemGray4) : Color(.systemGray4), lineWidth: 1)
                     )
             )
         }
@@ -101,12 +101,12 @@ struct URLGenerationSection: View {
             .padding(16)
             .background(
                 RoundedRectangle(cornerRadius: 12)
-                    .fill(hasNoTokens ? Color(.systemGray4) : Color.blue)
+                    .fill(isServiceAvailable ? Color.blue : Color(.systemGray4))
             )
-            .foregroundColor(hasNoTokens ? .secondary : .white)
+            .foregroundColor(isServiceAvailable ? .white : .secondary)
         }
         .buttonStyle(PlainButtonStyle())
-        .disabled(hasNoTokens)
+        .disabled(!isServiceAvailable)
     }
 
     private var resultHeader: some View {
