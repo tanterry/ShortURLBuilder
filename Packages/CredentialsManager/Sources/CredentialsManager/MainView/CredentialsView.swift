@@ -11,9 +11,13 @@ public struct CredentialsView: View {
 
     @ObservedObject var viewModel = CredentialsViewModel()
 
+    @Binding private var hasTokenSaved: Bool
+
     private let placeholderDots = "••••••••••"
 
-    public init() {}
+    public init(hasTokenSaved: Binding<Bool>) {
+        _hasTokenSaved = hasTokenSaved
+    }
 
     public var body: some View {
         NavigationView {
@@ -42,6 +46,7 @@ public struct CredentialsView: View {
                 ToolbarItem(placement: .confirmationAction) {
                     Button("Save") {
                         viewModel.save()
+                        hasTokenSaved = true
                         dismiss()
                     }
                     .disabled(!isModified)

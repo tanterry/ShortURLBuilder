@@ -49,9 +49,9 @@ struct ContentView: View {
                 .presentationDetents([.medium])
                 .interactiveDismissDisabled()
         }
-        .sheet(isPresented: $showingCredentials) {
-            CredentialsView()
-        }
+//        .sheet(isPresented: $showingCredentials) {
+//            CredentialsView()
+//        }
         .environmentObject(credentialsManager)
     }
 }
