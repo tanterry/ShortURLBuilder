@@ -31,11 +31,15 @@ struct HomeView: View {
                         }
                     }
 
-                    ServiceSelectionSection(
-                        selectedService: $selectedService,
-                        showingServicePicker: $showingServicePicker,
-                        availableServices: availableServices
-                    )
+                    if let selectedService {
+                        SelectedServiceView(service: selectedService) {
+                            showingServicePicker = true
+                        }
+                    } else {
+                        NoTokenView {
+                            showingCredentials = true
+                        }
+                    }
 
                     // Toggle for testing
                     Toggle(
