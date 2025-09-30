@@ -11,6 +11,7 @@ import CredentialsManager
 
 struct HomeView: View {
     @State private var urlText = ""
+    @State private var shortenURL: String?
     @State private var selectedService = URLService.sampleServices.first
     @State private var availableServices = URLService.sampleServices
     @State private var showingServicePicker = false
@@ -22,9 +23,10 @@ struct HomeView: View {
         NavigationView {
             ScrollView {
                 VStack(spacing: 16) {
-                    URLInputSection(
+                    URLGenerationSection(
                         urlText: $urlText,
-                        hasNoTokens: selectedService == nil
+                        shortenURL: $shortenURL,
+                        service: selectedService
                     ) {
                         Task {
                             await generateShortURL()
@@ -87,6 +89,8 @@ struct HomeView: View {
                 let shortenService = getShortenService(for: service)
                 let shortenURL = try await shortenService.shorten(url: urlText)
                 print("Successfully generated short URL: \(shortenURL)")
+
+                self.shortenURL = shortenURL
             } catch {
                 print("Failed to generate short URL: \(error.localizedDescription)")
             }
