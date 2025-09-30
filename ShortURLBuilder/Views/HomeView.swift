@@ -42,17 +42,6 @@ struct HomeView: View {
                             showingCredentials = true
                         }
                     }
-
-                    // Toggle for testing
-                    Toggle(
-                        "No Tokens Available",
-                        isOn: Binding(get: {
-                            selectedService != nil
-                        }, set: { value in
-                            value ? (selectedService = URLService.sampleServices.first) : (selectedService = nil)
-                        })
-                    )
-                    .padding(.horizontal, 24)
                 }
                 .padding(.horizontal, 16)
             }
