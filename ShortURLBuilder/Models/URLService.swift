@@ -19,7 +19,7 @@ struct URLService: Identifiable, Hashable {
 
     static let sampleServices = [
         bitly,
-        URLService(id: .cuttly, name: "Cuttly", domain: "cutt.ly", color: .blue, icon: "C", hasToken: true)
+        cuttly
     ]
 
     static let bitly = URLService(
@@ -28,6 +28,15 @@ struct URLService: Identifiable, Hashable {
         domain: "bit.ly",
         color: .orange,
         icon: "B",
+        hasToken: true
+    )
+
+    static let cuttly = URLService(
+        id: .cuttly,
+        name: "Cuttly",
+        domain: "cutt.ly",
+        color: .blue,
+        icon: "C",
         hasToken: true
     )
 }

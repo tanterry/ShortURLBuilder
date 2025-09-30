@@ -12,8 +12,8 @@ import CredentialsManager
 struct HomeView: View {
     @State private var urlText = ""
     @State private var shortenURL: String?
-    @State private var selectedService = URLService.sampleServices.first
-    @State private var availableServices = URLService.sampleServices
+    @State private var selectedService: URLService?
+    @State private var availableServices: [URLService] = []
     @State private var showingServicePicker = false
     @State private var showingCredentials = false
 
@@ -66,7 +66,28 @@ struct HomeView: View {
                 CredentialsView()
             }
             .environmentObject(credentialsManager)
+            .onAppear {
+                reloadServices()
+            }
         }
+    }
+
+    private func reloadServices() {
+        availableServices = Provider.allCases.reduce(into: [URLService]()) { result, provider in
+            switch provider {
+            case .bitly:
+                let token = credentialsManager.retrieve(for: .bitlyToken)
+                if !token.isEmpty {
+                    result.append(.bitly)
+                }
+            case .cuttly:
+                let token = credentialsManager.retrieve(for: .cuttlyApiKey)
+                if !token.isEmpty {
+                    result.append(.cuttly)
+                }
+            }
+        }
+        selectedService = availableServices.first
     }
 
     @MainActor
