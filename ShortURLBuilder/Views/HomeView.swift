@@ -7,12 +7,16 @@
 
 import SwiftUI
 import ShortURLBuilderProvider
+import CredentialsManager
 
 struct HomeView: View {
     @State private var urlText = ""
     @State private var selectedService = URLService.sampleServices.first
     @State private var availableServices = URLService.sampleServices
     @State private var showingServicePicker = false
+    @State private var showingCredentials = false
+
+    private var credentialsManager = CredentialsManager.shared
 
     var body: some View {
         NavigationView {
@@ -48,12 +52,25 @@ struct HomeView: View {
             }
             .background(Color(.systemGroupedBackground))
             .navigationTitle("URL Shortener")
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
+                        showingCredentials = true
+                    } label: {
+                        Image(systemName: "key.fill")
+                    }
+                }
+            }
             .sheet(isPresented: $showingServicePicker) {
                 ServicePickerBottomSheet(
                     selectedService: $selectedService,
                     availableServices: availableServices
                 )
             }
+            .sheet(isPresented: $showingCredentials) {
+                CredentialsView()
+            }
+            .environmentObject(credentialsManager)
         }
     }
 
@@ -76,8 +93,6 @@ struct HomeView: View {
         switch selectedService.id {
         case .bitly: BitlyService()
         case .cuttly: CuttlyService()
-        default:
-            fatalError("Unsupported service: \(selectedService.id)")
         }
     }
 }
