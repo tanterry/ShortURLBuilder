@@ -14,14 +14,20 @@ public enum CredentialType: String, CaseIterable {
     }
 }
 
+@MainActor
 public final class CredentialsManager: ObservableObject, Sendable {
     public static let shared = CredentialsManager()
+
+    @Published public private(set) var lastUpdated = Date()
 
     private init() {}
 
     public func save(_ value: String, for type: CredentialType) {
         guard !value.isEmpty else { return }
-        _ = KeychainService.save(value, forKey: type.rawValue)
+
+        if KeychainService.save(value, forKey: type.rawValue) {
+            lastUpdated = Date()
+        }
     }
 
     public func retrieve(for type: CredentialType) -> String {
@@ -29,7 +35,9 @@ public final class CredentialsManager: ObservableObject, Sendable {
     }
 
     public func delete(type: CredentialType) {
-        _ = KeychainService.delete(forKey: type.rawValue)
+        if KeychainService.delete(forKey: type.rawValue) {
+            lastUpdated = Date()
+        }
     }
 
 }

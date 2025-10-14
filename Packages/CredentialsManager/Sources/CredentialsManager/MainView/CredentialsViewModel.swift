@@ -8,6 +8,7 @@
 import Foundation
 import Combine
 
+@MainActor
 final class CredentialsViewModel: ObservableObject {
     @Published var fields: [CredentialFieldViewModel]
     private var updatedFields: [CredentialFieldViewModel] = []

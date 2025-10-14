@@ -16,9 +16,7 @@ struct HomeView: View {
     @State private var availableServices: [URLService] = []
     @State private var showingServicePicker = false
     @State private var showingCredentials = false
-    @State private var hasTokenSaved = false
-
-    private var credentialsManager = CredentialsManager.shared
+    @StateObject private var credentialsManager = CredentialsManager.shared
 
     var body: some View {
         NavigationView {
@@ -64,14 +62,10 @@ struct HomeView: View {
                 )
             }
             .sheet(isPresented: $showingCredentials) {
-                CredentialsView(hasTokenSaved: $hasTokenSaved)
+                CredentialsView()
             }
-            .onChange(of: hasTokenSaved) { _, newValue in
-                // FIXME: workaround, will use an observable object to refresh.
-                if newValue {
-                    hasTokenSaved = false
-                    reloadServices()
-                }
+            .task(id: credentialsManager.lastUpdated) {
+                reloadServices()
             }
             .environmentObject(credentialsManager)
             .onAppear {
