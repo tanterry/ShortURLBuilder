@@ -6,9 +6,10 @@
 //
 
 import SwiftUI
+import ShortURLBuilderProvider
 
 struct ServiceRow: View {
-    let service: URLService
+    let service: Provider
     let isSelected: Bool
     let onTap: () -> Void
 

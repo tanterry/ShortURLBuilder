@@ -6,12 +6,13 @@
 //
 
 import SwiftUI
+import ShortURLBuilderProvider
 
 struct URLGenerationSection: View {
     @Binding var urlText: String
     @Binding var shortenURL: String?
 
-    var service: URLService?
+    var service: Provider?
     var isServiceAvailable: Bool { service != nil }
 
     var onGeneratePressed: () -> Void

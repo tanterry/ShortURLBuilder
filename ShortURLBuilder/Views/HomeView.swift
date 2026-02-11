@@ -12,8 +12,8 @@ import CredentialsManager
 struct HomeView: View {
     @State private var urlText = ""
     @State private var shortenURL: String?
-    @State private var selectedService: URLService?
-    @State private var availableServices: [URLService] = []
+    @State private var selectedService: Provider?
+    @State private var availableServices: [Provider] = []
     @State private var showingServicePicker = false
     @State private var showingCredentials = false
     @StateObject private var credentialsManager = CredentialsManager.shared
@@ -75,7 +75,7 @@ struct HomeView: View {
     }
 
     private func reloadServices() {
-        availableServices = Provider.allCases.reduce(into: [URLService]()) { result, provider in
+        availableServices = Provider.allCases.reduce(into: [Provider]()) { result, provider in
             switch provider {
             case .bitly:
                 let token = credentialsManager.retrieve(for: .bitlyToken)
@@ -109,8 +109,8 @@ struct HomeView: View {
         }
     }
 
-    private func getShortenService(for selectedService: URLService) -> ShortenLinkService {
-        switch selectedService.id {
+    private func getShortenService(for selectedService: Provider) -> ShortenLinkService {
+        switch selectedService {
         case .bitly: BitlyService()
         case .cuttly: CuttlyService()
         }

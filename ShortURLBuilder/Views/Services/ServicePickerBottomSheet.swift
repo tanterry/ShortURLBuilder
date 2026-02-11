@@ -6,10 +6,11 @@
 //
 
 import SwiftUI
+import ShortURLBuilderProvider
 
 struct ServicePickerBottomSheet: View {
-    @Binding var selectedService: URLService?
-    let availableServices: [URLService]
+    @Binding var selectedService: Provider?
+    let availableServices: [Provider]
     @Environment(\.dismiss) private var dismiss
 
     var body: some View {
@@ -42,10 +43,10 @@ struct ServicePickerBottomSheet: View {
                 } else {
                     // Service List
                     List {
-                        ForEach(availableServices) { service in
+                        ForEach(availableServices, id: \.self) { service in
                             ServiceRow(
                                 service: service,
-                                isSelected: selectedService?.id == service.id,
+                                isSelected: selectedService == service,
                                 onTap: {
                                     selectedService = service
                                     dismiss()
@@ -75,6 +76,6 @@ struct ServicePickerBottomSheet: View {
 #Preview {
     ServicePickerBottomSheet(
         selectedService: .constant(.bitly),
-        availableServices: URLService.sampleServices
+        availableServices: Provider.allCases
     )
 }
