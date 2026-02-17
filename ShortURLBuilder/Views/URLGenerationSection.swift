@@ -19,7 +19,15 @@ struct URLGenerationSection: View {
 
     var body: some View {
         ChipContainer {
-            if shortenURL == nil {
+            if let shortenURL {
+                resultHeader
+                originalInputView
+                generatedURLView(shortenURL)
+
+                actionButton(text: "Create New Link") {
+                    resetInput()
+                }
+            } else {
                 inputView
 
                 actionButton(
@@ -27,14 +35,6 @@ struct URLGenerationSection: View {
                     disabled: !isServiceAvailable,
                     action: onGeneratePressed
                 )
-            } else {
-                resultHeader
-                originalInputView
-                generatedURLView
-
-                actionButton(text: "Create New Link") {
-                    resetInput()
-                }
             }
         }
     }
@@ -149,7 +149,7 @@ struct URLGenerationSection: View {
         }
     }
 
-    private var generatedURLView: some View {
+    private func generatedURLView(_ shortenURL: String) -> some View {
         VStack(alignment: .leading, spacing: 8) {
             HStack {
                 Text("Short URL")
@@ -174,10 +174,11 @@ struct URLGenerationSection: View {
             }
 
             HStack {
-                TextField("https://example.com/your-long-url", text: $urlText)
+                Text(shortenURL)
                     .fontWeight(.bold)
                     .foregroundColor(.blue)
                     .lineLimit(1)
+                    .frame(maxWidth: .infinity, alignment: .leading)
             }
             .padding(16)
             .background(
