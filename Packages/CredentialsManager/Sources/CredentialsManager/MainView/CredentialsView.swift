@@ -2,16 +2,9 @@ import SwiftUI
 
 public struct CredentialsView: View {
     @Environment(\.dismiss) private var dismiss
-    @EnvironmentObject private var credentialsManager: CredentialsManager
-    @State private var bitlyToken = ""
-    @State private var cuttlyKey = ""
     @State private var isModified = false
 
-    @State private var models: [CredentialFieldViewModel] = []
-
     @ObservedObject var viewModel = CredentialsViewModel()
-
-    private let placeholderDots = "••••••••••"
 
     public init() {}
 
@@ -22,7 +15,7 @@ public struct CredentialsView: View {
                     Section(model.name) {
                         CredentialFieldView(
                             type: model.type,
-                            placeholder: placeholderDots,
+                            placeholder: model.placeholder,
                             value: $model.value
                         )
                         .onChange(of: model.value) {

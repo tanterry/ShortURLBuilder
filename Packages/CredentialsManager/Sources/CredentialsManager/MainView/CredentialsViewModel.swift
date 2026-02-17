@@ -11,22 +11,18 @@ import Combine
 @MainActor
 final class CredentialsViewModel: ObservableObject {
     @Published var fields: [CredentialFieldViewModel]
-    private var updatedFields: [CredentialFieldViewModel] = []
-    private let credentialsManager = CredentialsManager.shared
+    private let credentialsManager: CredentialsManager
 
-    init() {
-        fields = [
+    init(credentialsManager: CredentialsManager = .shared) {
+        self.credentialsManager = credentialsManager
+        self.fields = CredentialType.allCases.map { type in
             CredentialFieldViewModel(
-                name: "Bitly",
-                type: .bitlyToken,
-                value: credentialsManager.retrieve(for: .bitlyToken)
-            ),
-            CredentialFieldViewModel(
-                name: "Cuttly",
-                type: .cuttlyApiKey,
-                value: credentialsManager.retrieve(for: .cuttlyApiKey)
+                name: type.displayName,
+                type: type,
+                placeholder: type.placeholder,
+                value: credentialsManager.retrieve(for: type)
             )
-        ]
+        }
     }
 
     func save() {
