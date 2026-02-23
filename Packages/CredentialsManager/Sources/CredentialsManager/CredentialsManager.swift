@@ -1,7 +1,7 @@
 import Foundation
 
 @MainActor
-public final class CredentialsManager: ObservableObject, Sendable {
+public final class CredentialsManager: CredentialsManaging {
     public static let shared = CredentialsManager()
 
     @Published public private(set) var lastUpdated = Date()
@@ -28,6 +28,10 @@ public final class CredentialsManager: ObservableObject, Sendable {
         if store.delete(for: type.rawValue) {
             lastUpdated = Date()
         }
+    }
+
+    public func hasCredential(for type: CredentialType) -> Bool {
+        !retrieve(for: type).isEmpty
     }
 
 }

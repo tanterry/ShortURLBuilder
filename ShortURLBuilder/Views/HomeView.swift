@@ -16,7 +16,11 @@ struct HomeView: View {
     @State private var availableServices: [Provider] = []
     @State private var showingServicePicker = false
     @State private var showingCredentials = false
-    @StateObject private var credentialsManager = CredentialsManager.shared
+    @StateObject private var credentialsManager: CredentialsManager
+
+    init(credentialsManager: CredentialsManager = .shared) {
+        _credentialsManager = StateObject(wrappedValue: credentialsManager)
+    }
 
     var body: some View {
         NavigationView {
@@ -75,18 +79,12 @@ struct HomeView: View {
     }
 
     private func reloadServices() {
-        availableServices = Provider.allCases.reduce(into: [Provider]()) { result, provider in
+        availableServices = Provider.allCases.filter { provider in
             switch provider {
             case .bitly:
-                let token = credentialsManager.retrieve(for: .bitlyToken)
-                if !token.isEmpty {
-                    result.append(.bitly)
-                }
+                credentialsManager.hasCredential(for: .bitlyToken)
             case .cuttly:
-                let token = credentialsManager.retrieve(for: .cuttlyApiKey)
-                if !token.isEmpty {
-                    result.append(.cuttly)
-                }
+                credentialsManager.hasCredential(for: .cuttlyApiKey)
             }
         }
         selectedService = availableServices.first
